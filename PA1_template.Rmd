@@ -30,8 +30,9 @@ data<- read.csv("activity.csv")
 dat <- select(data, steps, date) %>%
     group_by(date) %>% 
     summarize(total_steps= sum(steps, na.rm = T)) 
-
-    with(dat, hist(total_steps, main="Total number of steps taken each day"))
+    with(dat, hist(total_steps, main="figures/Total number of steps taken each day"))
+    dev.copy(png,"plot1.png")
+    dev.off()
 ```
 
 ### Report the mean and median total number of steps taken per day.
@@ -52,6 +53,9 @@ library(lubridate)
 dat <- group_by(data, interval) %>%
     summarize(mean_steps= mean(steps, na.rm = T)) %>%
     with(plot(interval, mean_steps,main = "Average Number of Steps Taken Each Day", type = 'l', xlab = "5-min Interval", ylab = "Average Number of Steps"))
+    
+    dev.copy(png,"plot2.png")
+    dev.off()
 ```
 
 ### The 5-minute interval contains the maximum number of steps
@@ -98,7 +102,10 @@ dat <- select(data, steps, date) %>%
     group_by(date) %>% 
     summarize(total_steps= sum(steps))
     with(dat, hist(total_steps, main="Total number of steps taken each day"))
+    dev.copy(png,"plot3.png")
+    dev.off()
 ```
+
 
 The mean and median total number of steps taken per day.
 
@@ -132,5 +139,9 @@ plotdat <- select(dat, steps, interval, type) %>%
     summarize(steps= mean(steps)) 
     
     xyplot(steps-mean(steps)~interval|type, layout= c(1,2), data = plotdat, type ="l")
+    dev.copy(png,"plot4.png")
+    dev.off()
     qplot(interval, steps, data = plotdat, facets = .~type, geom = c("point","smooth"),method="loess")
+    dev.copy(png,"plot5.png")
+    dev.off()
 ```
